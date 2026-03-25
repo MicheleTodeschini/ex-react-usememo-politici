@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import './App.css'
+import Card from '../components/Card'
 
 function App() {
 
@@ -26,7 +27,6 @@ function App() {
     }
     getPoliticians()
   }, [])
-  console.log(search);
 
   const filteredPoliticians = useMemo(() => {
     return politicians.filter(politico => {
@@ -47,18 +47,7 @@ function App() {
 
           {
             filteredPoliticians.map(politico => (
-              <div className='card col-4' key={politico.id}>
-
-                <h2>{politico.name}</h2>
-                <img src={politico.image || "https://picsum.photos/200/300"}
-                  alt={politico.name}
-                  onError={(e) => {
-                    e.target.src = "https://picsum.photos/200/300"
-                  }} />
-                <p>{politico.position}</p>
-                <p>{politico.biography}</p>
-
-              </div>
+              <Card {...politico} key={politico.id} />
             ))
           }
         </div>

@@ -31,18 +31,27 @@ function App() {
   return (
     <>
       <h1>I nostri politici</h1>
-      {
-        politicians.map(politico => (
-          <div>
+      <section className='container'>
+        <div className='row'>
 
-            <h2>{politico.name}</h2>
-            <img src={politico.image} />
-            <p>{politico.position}</p>
-            <p>{politico.biography}</p>
+          {
+            politicians.map(politico => (
+              <div className='card col-4'>
 
-          </div>
-        ))
-      }
+                <h2>{politico.name}</h2>
+                <img src={politico.image || "https://picsum.photos/200/300"}
+                  alt={politico.name}
+                  onError={(e) => {
+                    e.target.src = "https://picsum.photos/200/300"
+                  }} />
+                <p>{politico.position}</p>
+                <p>{politico.biography}</p>
+
+              </div>
+            ))
+          }
+        </div>
+      </section>
 
 
     </>

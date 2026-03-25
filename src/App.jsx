@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
 function App() {
@@ -11,6 +11,7 @@ function App() {
 
   const URL = 'http://localhost:3333/politicians'
   const [politicians, setPoliticians] = useState([])
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     async function getPoliticians() {
@@ -25,18 +26,28 @@ function App() {
     }
     getPoliticians()
   }, [])
-  console.log(politicians);
+  console.log(search);
+
+  const filteredPoliticians = useMemo(() => {
+    return politicians.filter(politico => {
+      return politico.name.toLowerCase().includes(search.toLocaleLowerCase()) || politico.biography.toLocaleLowerCase().includes(search.toLowerCase())
+    })
+  }, [politicians, search])
+
 
 
   return (
     <>
       <h1>I nostri politici</h1>
+      <input type='text' placeholder='Digita qui'
+        value={search}
+        onChange={(e) => setSearch(e.target.value)} />
       <section className='container'>
         <div className='row'>
 
           {
-            politicians.map(politico => (
-              <div className='card col-4'>
+            filteredPoliticians.map(politico => (
+              <div className='card col-4' key={politico.id}>
 
                 <h2>{politico.name}</h2>
                 <img src={politico.image || "https://picsum.photos/200/300"}
